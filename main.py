@@ -1,16 +1,21 @@
-# This is a sample Python script.
+#coding:utf-8
+import mysql.connector as MC
+try:
+    conn = MC.connect(host = 'localhost', database = 'datatest', user = 'root', password = '0000')
+    cursor = conn.cursor()
+    req = 'INSERT INTO ninjatable(id_ninja, ninja_firstname, ninja_lastname) VALUES(%s, %s, %s)'
+    infos = (cursor.lastrowid, 'Shikamaru', 'NARA')
+    cursor.execute(req, infos)
+    conn.commit()
+    req = 'SELECT * FROM ninjatable'
+    cursor.execute(req)
+    ninjalist = cursor.fetchall()
+    for ninja in ninjalist:
+        print('Prénom : {}'.format(ninja[1]))
+except MC.Error as err:
+    print(err)
+finally:
+    if conn.is_connected():
+        cursor.close()
+        conn.close()
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('hello world ;)')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
